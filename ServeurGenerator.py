@@ -1,4 +1,4 @@
-import rout
+from Routeur import Routeur
 import os
 import shutil
 from tkinter import *
@@ -52,7 +52,7 @@ def start(nbRouteur,shema,ip):
 
 
 def createRouter(numero,listReseau):
-    routeurs.append(rout.rout(str(numero+1),listReseau))
+    routeurs.append(Routeur(str(numero+1),listReseau))
 
 def createReseau(ip,numero):
     reseaux.append(Reseau(numero,ip))

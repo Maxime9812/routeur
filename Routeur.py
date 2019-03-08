@@ -4,7 +4,7 @@ import csv
 import os.path
 import threading
 
-class rout:
+class Routeur:
     numero = ""
     reseaux = []
     interface = []
@@ -17,7 +17,6 @@ class rout:
     def __init__(self,numero,reseaux):
         self.numero = numero
         self.reseaux = reseaux
-        print (self.numero)
         self.interface = []
         self.ipInterface = []
         str = ""
@@ -65,7 +64,6 @@ class rout:
                 if res == myRes.numero:
                     return True
         return False
-        print(fileReseau)
     def writeinfo(self):
         for file in os.listdir(self.mainDirectory):
             if file[0:1] != ".":
@@ -78,33 +76,22 @@ class rout:
                                 writer = csv.DictWriter(otherFileAppend, fieldnames=fieldnames)
                                 find = True
                                 for myRow in myReader:
-                                    print(myRow)
-                                    print("my row")
                                     find = False
                                     with open(self.mainDirectory + file, 'r') as otherFile:
                                         reader = csv.DictReader(otherFile, fieldnames=fieldnames)
                                         for row in reader:
-                                            print(row)
-                                            print("other row")
-                                            if row['numeroReseau'] == myRow['numeroReseau']:
+                                            if row['numeroReseau'] == myRow['numeroReseau'] and row['interface'] == myRow['interface']:
                                                 find = True
                                                 break
                                         print(find)
                                         if find == False:
-                                            #print("add")
                                             tabRow = [myRow['numeroReseau'], myRow['metric'], myRow['interface'], myRow['nextHop']]
                                             self.tabTest.append(tabRow)
-                                            #print(self.tabTest)
-                                            #print(self.numero)
-                                        else:
-                                            #print("dont")
-                                            continue
                                 for row in self.tabTest:
                                     writer.writerow({'numeroReseau': row[0], 'metric': str(int(row[1]) + 1),
                                                      'interface': row[2], 'nextHop': self.numero})
                                     print(row)
                                 self.tabTest.clear()
-                                print("stoper")
 
 
     def work(self):
